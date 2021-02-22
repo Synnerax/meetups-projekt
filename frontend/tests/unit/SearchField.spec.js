@@ -19,11 +19,17 @@ describe('SearchField.vue', () => {
   it("should bind the data from event input field to vue data",async () => {
 
     const wrapper = shallowMount(SearchField)
-    await wrapper.setData({ userEventInput: 'Event data' })
-    const eventInput = wrapper.find(".event-input-field")
 
+    //Finds the input field 
+    const eventInput = await wrapper.find(".event-input-field")
+
+    //Changes input field text from empty to "Event data"
+    eventInput.element.value = "Event data"
+    //Triggers input event 
+    eventInput.trigger('input')
+    //checks if userEventInput is bound with v-model and has the same value
     expect(wrapper.vm.userEventInput).toBe('Event data')
-    expect(eventInput).toBe("Event data")
+    //expect(eventInput).toBe("Event data")
   })
   //should bind the data from event input field to vue data
 
