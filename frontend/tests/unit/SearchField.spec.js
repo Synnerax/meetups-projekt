@@ -49,4 +49,16 @@ describe('SearchField.vue', () => {
     expect(wrapper.vm.locationFilter).toBe(expectedLocation)
   })
 
+
+  it('should display a search button when mounted', () => {
+
+    //mounting seach field comopnent
+    const wrapper = shallowMount(SearchField)
+
+    //Finds the input box to search for events 
+    const searchButton = wrapper.find(".search-button").exists()
+
+    //finds the input box for location filtering
+    expect(searchButton).toBeTruthy()
+  })
 })
