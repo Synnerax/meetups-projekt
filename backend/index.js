@@ -7,7 +7,7 @@ const { nanoid } = require("nanoid")
 
 const db = lowDb(new FileSync('db.json'))
 
-db.defaults({ notes: [] }).write()
+db.defaults({ events: [] }).write()
 
 const app = express()
 
@@ -16,16 +16,15 @@ app.use(bodyParser.json())
 
 const PORT = 4000;
 
-app.get('/notes', (req, res) => {
-  const data = db.get("notes").value()
-  console.log("display notes----------------------")
+app.get('/events', (req, res) => {
+  const data = db.get("events").value()
   return res.json(data)
 })
 
-app.post('/notes/new', (req, res) => {
-  const note = req.body
-  db.get("notes").push({
-    ...note, id: nanoid()
+app.post('/events/new', (req, res) => {
+  const event = req.body
+  db.get("events").push({
+    ...event, id: nanoid()
   }).write()
   res.json({ success: true })
 })

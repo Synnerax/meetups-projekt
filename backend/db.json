@@ -1,22 +1,18 @@
 {
-  "notes": [
-    {
-      "id": 1,
-      "title": "Bryggkaffe",
-      "desc": "Bryggd på månadens bönor.",
-      "price": 39
-    },
-    {
-      "id": "hzlO2u4vRhPSL46zxrC1f",
-      "title": "Bryggkaffe",
-      "desc": "Bryggd på månadens bönor.",
-      "price": 39
-    },
+  "events": [
     {
       "id": "ZIkZVDxxKBV1iTSyBR389",
-      "title": "Bryggkaffe",
-      "desc": "Bryggd på månadens bönor.",
-      "price": 39
+      "title": "Name of event",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat nemo beatae a laboriosam velit obcaecati! Error ipsa aspernatur odio eos qui et beatae quas molestias, excepturi adipisci ad doloremque aliquam.",
+      "location": "",
+      "date": "2020/09/30",
+      "time": "1337",
+      "tags": [
+        "music",
+        "some other thing"
+      ],
+      "img": "image url",
+      "price": 0
     }
   ]
 }
