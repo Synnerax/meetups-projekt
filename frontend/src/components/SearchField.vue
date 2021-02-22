@@ -7,7 +7,12 @@
 
 <script>
 export default {
-
+  name: "search-field",
+  data() {
+    return {
+      foo: ""
+    }
+  }
 }
 </script>
 
