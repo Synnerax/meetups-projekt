@@ -56,25 +56,8 @@ it("should describe the correct information in a card", async () => {
 })
 
 
-it("should call one fetch on mount", async () => {
-  enableFetchMocks()
-  const result = "result"
-  fetch.mockResponseOnce(JSON.stringify(result))
+//Tänkte ha ett test för att kolla om sidan gjorde ett API anrop vid mount men lyckades inte få "mounted" functionen att triggas i jest
 
-  const wrapper = shallowMount(App)
-  console.log(wrapper.vm)
-  let numCalls = fetch.mock.calls.length;
-
-  wrapper.vm.$nextTick(() => {
-    console.log("this is one tick after")
-    wrapper.vm.$nextTick(() => {
-      console.log("this is 2 ticks later:", numCalls)
-    })
-  })
-  
-  
-  expect(numCalls).toBe(1)
-})
 
 })
 
