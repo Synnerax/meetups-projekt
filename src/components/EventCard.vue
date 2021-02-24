@@ -1,13 +1,13 @@
 <template>
-  <article class="event-card">
-      <img :src="eventInfo.img" class="card-img" alt="">
+  <section class="event-card">
+      <img src="https://source.unsplash.com/random/224x124" class="card-img" alt="">
       <div class="date-time-container">
-        <span class="card-date">{{eventInfo.date}}</span>
+        <span class="card-date">{{eventInfo.date}}, </span>
         <span class="card-time">{{eventInfo.time}}</span>
       </div>
       <h3 class="card-title">{{eventInfo.title}}</h3>
       <p class="card-organizer">{{eventInfo.organizer}}</p>
-  </article>
+  </section>
 </template>
 
 <script>
@@ -21,4 +21,13 @@ export default {
 
 <style>
 
+.event-card {
+  background: rgb(226, 209, 201);
+  text-align: left;
+
+}
+
+.date-time-container, .card-title, .card-organizer {
+  margin-left: 15px;
+}
 </style>
