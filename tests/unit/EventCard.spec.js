@@ -1,45 +1,42 @@
-import { shallowMount, mount } from '@vue/test-utils'
-import { enableFetchMocks } from 'jest-fetch-mock'
-import EventCard from '@/components/EventCard.vue'
+import { mount, shallowMount } from "@vue/test-utils";
+import { enableFetchMocks } from "jest-fetch-mock"
+import EventCard from "@/components/EventCard.vue";
+import App from "@/App.vue"
 
-const fakeData = {
-    "id": "ZIkZVDxxKBV1iTSyBR389",
-    "organizer": "trump stump",
-    "title": "Name of event",
-    "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat nemo beatae a laboriosam velit obcaecati! Error ipsa aspernatur odio eos qui et beatae quas molestias, excepturi adipisci ad doloremque aliquam.",
-    "location": "",
-    "date": "2020/09/30",
-    "time": "1337",
-    "tags": [
-      "music",
-      "some other thing"
-    ],
-    "img": "imageurl.png",
-    "price": 0
-  } 
-
-
+const fakeData =  {
+  "id": "ZIkZVDxxKBV1iTSyBR389",
+  "organizer": "trump stump",
+  "title": "Name of event",
+  "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat nemo beatae a laboriosam velit obcaecati! Error ipsa aspernatur odio eos qui et beatae quas molestias, excepturi adipisci ad doloremque aliquam.",
+  "location": "",
+  "date": "2020/09/30",
+  "time": "1337",
+  "tags": [
+    "music",
+    "some other thing"
+  ],
+  "price": 0
+}
 describe("EventCard.vue", () => {
     
-    
-it("should display card ", () => {
-    //mounting seach field comopnent
+    it("should display a Card when mounted", () => {
+    //mounts the darkMode-vue component    
     const wrapper = shallowMount(EventCard, {
-        propsData: {
-            eventInfo: fakeData
-        }
-    })
+      propsData: {
+        eventInfo: fakeData
+      }
+    });
+    
+    const acutal = wrapper.find(".event-card")
+    //checks if button is there when mounted
+    expect(acutal).toBeTruthy(); 
+  });
 
-    //Finds the input box to search for events 
-    const actualCard = wrapper.find(".event-card").exists()
-    console.log(actualCard)
-    //finds the input box for location filtering
-    expect(actualCard).toBeTruthy()
-    })
+
 
 it("should describe the correct information in a card", async () => {
     
-    const wrapper = mount(EventCard, {
+    const wrapper = shallowMount(EventCard, {
         propsData: {
           eventInfo: fakeData
         }
@@ -50,7 +47,6 @@ it("should describe the correct information in a card", async () => {
       const eventDate = wrapper.find('.card-date').exists()
       const eventTime = wrapper.find('.card-time').exists()
       const eventOrganizer = wrapper.find('.card-organizer').exists()
-      console.log(eventTitle, eventImg, eventDate, eventTime, eventOrganizer)
 
       expect(eventTitle).toBeTruthy()
       expect(eventImg).toBeTruthy()
@@ -59,5 +55,27 @@ it("should describe the correct information in a card", async () => {
       expect(eventOrganizer).toBeTruthy()
 })
 
+
+it("should call one fetch on mount", async () => {
+  enableFetchMocks()
+  const result = "result"
+  fetch.mockResponseOnce(JSON.stringify(result))
+
+  const wrapper = shallowMount(App)
+  console.log(wrapper.vm)
+  let numCalls = fetch.mock.calls.length;
+
+  wrapper.vm.$nextTick(() => {
+    console.log("this is one tick after")
+    wrapper.vm.$nextTick(() => {
+      console.log("this is 2 ticks later:", numCalls)
+    })
+  })
+  
+  
+  expect(numCalls).toBe(1)
 })
+
+})
+
 //it should display data in card

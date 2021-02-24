@@ -30,6 +30,8 @@ export default {
     }
   }
 }
+// json bin: https://api.jsonbin.io/b/60355a8d0866664b10820263
+// API key: $2b$10$IQutUOnIDU5m1VTI.4PzQ.M1ZzdQ4Q/XZzMz/MT7RKqX8oHx3k0pu
 </script>
 
 <style>
