@@ -17,33 +17,41 @@ import EventCard from '@/components/EventCard.vue'
 
 export default {
   name: 'Home',
+  data() {
+    return {
+      eventsArray: []
+    }
+  },
   components: {
     SearchField,
     EventCard
   },
-  props: {
-    eventsArray: Array
-  },
-  methods:{
-/*
+  methods: {
     async getEventDataArray() {
-        let settings = {
-        method: 'GET',
-        //body: JSON.stringify(cart),
+      let settings = {
         headers: {
-            Accept: 'application/json',
             'Content-Type': 'application/json',
-            'X-Master-Key': '$2b$10$IQutUOnIDU5m1VTI.4PzQ.M1ZzdQ4Q/XZzMz/MT7RKqX8oHx3k0pu'
+            'X-Master-Key': '$2b$10$IQutUOnIDU5m1VTI.4PzQ.M1ZzdQ4Q/XZzMz/MT7RKqX8oHx3k0pu',
+            'X-Bin-Versioning': 'false'
         }
       }
+      try{
+      let resp = await fetch(`https://api.jsonbin.io/v3/b/60355a8d0866664b10820263/latest`, settings)
+      let data = await resp.json()
 
-      const response = await fetch("https://api.jsonbin.io/b/60355a8d0866664b10820263", settings)
-      
-      const data = await response.json()
+      this.eventsArray = await data.record.Events
       console.log(data)
-
-      return data
-    }*/
+      }
+      catch(err){
+        console.error(err)
+      }
+    }
+  },
+  mounted() {
+    //this.$nextTick(() => {
+      console.log("i was created")
+      this.getEventDataArray()
+    //})
   }
 }
 </script>
