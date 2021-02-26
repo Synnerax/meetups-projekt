@@ -5,7 +5,7 @@
       <h1 class="section-header">Events</h1>
       <section class="event-list">
 
-      <EventCard v-for="eventInfo in eventsArray" :key="eventInfo.id" :eventInfo="eventInfo"></EventCard>
+      <EventCard @click="goTo(eventInfo.id)" :eventsArray="eventsArray" v-for="eventInfo in eventsArray" :key="eventInfo.id" :eventInfo="eventInfo"></EventCard>
       </section>
     </section>
   </div>
@@ -17,40 +17,21 @@ import EventCard from '@/components/EventCard.vue'
 
 export default {
   name: 'Home',
-  data() {
-    return {
-      eventsArray: []
-    }
+  props: {
+    eventsArray: Array
   },
   components: {
     SearchField,
     EventCard
   },
   methods: {
-    async getEventDataArray() {
-      let settings = {
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Master-Key': '$2b$10$IQutUOnIDU5m1VTI.4PzQ.M1ZzdQ4Q/XZzMz/MT7RKqX8oHx3k0pu',
-            'X-Bin-Versioning': 'false'
-        }
-      }
-      try{
-      let resp = await fetch(`https://api.jsonbin.io/v3/b/60355a8d0866664b10820263/latest`, settings)
-      let data = await resp.json()
-
-      this.eventsArray = await data.record.Events
-      console.log(data)
-      }
-      catch(err){
-        console.error(err)
-      }
+      goTo(id) {
+      this.$router.push(`/event-info/${id}`);
     }
   },
   mounted() {
     //this.$nextTick(() => {
       console.log("i was created")
-      this.getEventDataArray()
     //})
   }
 }

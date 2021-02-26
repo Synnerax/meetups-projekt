@@ -1,11 +1,11 @@
 <template>
   <div id="nav">
     <div class="align-right">
-    <router-link to="/">Home</router-link>
+    <router-link to="/" @click="getEventDataArray">Home</router-link>
     <router-link to="/create-event">Create Event </router-link>
     </div>
   </div> 
-  <router-view />
+  <router-view :eventsArray="eventsArray"/>
 </template>
 
 <script>
@@ -15,6 +15,30 @@ export default {
     return {
       eventsArray: []
     }
+  },
+  methods: {
+    async getEventDataArray() {
+      let settings = {
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': '$2b$10$IQutUOnIDU5m1VTI.4PzQ.M1ZzdQ4Q/XZzMz/MT7RKqX8oHx3k0pu',
+            'X-Bin-Versioning': 'false'
+        }
+      }
+      try{
+      let resp = await fetch(`https://api.jsonbin.io/v3/b/6038c7059342196a6a687d55/latest`, settings)
+      let data = await resp.json()
+
+      this.eventsArray = await data.record.events
+      console.log(data)
+      }
+      catch(err){
+        console.error(err)
+      }
+    }
+  },
+  mounted() {
+    this.getEventDataArray()
   }
 }
 </script>

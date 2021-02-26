@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import CreateEvent from '@/views/CreateEvent.vue'
+import { enableFetchMocks } from "jest-fetch-mock"
 
 
 describe("CreateEvent.vue", () => {
@@ -17,13 +18,7 @@ describe("CreateEvent.vue", () => {
 
         expect(actualInputLocation).toBeTruthy()
     })
-    it("should display a input field for how many people that can join the event", () => {
-
-        const wrapper = shallowMount(CreateEvent)
-        const actualInputSeats = wrapper.find(".event-input-seats").exists()
-
-        expect(actualInputSeats).toBeTruthy()
-    })
+    
     it("should display a input field for the date and time for the event", () => {
 
         const wrapper = shallowMount(CreateEvent)
@@ -50,4 +45,94 @@ describe("CreateEvent.vue", () => {
 
         expect(actualDescription).toBeTruthy()
     })
+
+    it("should do a api call when button is clicked", async () => {
+        
+        const expectedUrl = "https://api.jsonbin.io/v3/b/6038c7059342196a6a687d55/latest"
+
+        const expectedText = {
+            "id": "123",
+            "organizer": "Hello World",
+            "title": "Hello Event",
+            "location": "Space",
+            "description": "LoremDescriptionesium",
+            "date": "2020-04-21",
+            "time": "13:37",
+            "timeAbbreviation": "AM",
+            "tag": "Music",
+            "seats": "30",
+            "price": "0" 
+        }
+        const expectedResponse = {
+            "record": {
+                "event": expectedText
+            },
+            "metadata": {
+              "parentId": "<BIN_ID>",
+              "private": true
+            }
+          }
+        
+        const wrapper = shallowMount(CreateEvent) 
+        const button = wrapper.find("button")
+
+        console.log(button)
+        enableFetchMocks()
+        fetch.mockResponseOnce(JSON.stringify(expectedResponse))
+        //borde göra en till mockresponse som ger eventsArray data 
+        await wrapper.setData({eventsArray: [
+            {}
+        ]})
+        await wrapper.setData({event: expectedText})
+        console.log(wrapper.vm.event)
+        await button.trigger("click")
+        
+        const numberOfCalls = fetch.mock.calls.length
+        const actualUrl = fetch.mock.calls[0][0]
+        expect(button.exists).toBeTruthy()
+        expect(numberOfCalls).toBe(1)
+        expect(actualUrl).toBe(expectedUrl)
+    })
+
+    
 })
+
+/*
+const expectedText = {
+    "id": "123",
+    "organizer": "Hello World",
+    "title": "Hello Event",
+    "location": "Space",
+    "description": "LoremDescriptionesium",
+    "date": "2020-04-21",
+    "time": "13:37",
+    "timeAbbreviation": "AM",
+    "tag": "Music",
+    "seats": "30",
+    "price": "0" 
+}
+
+const expectedUrl = "https://api.jsonbin.io/v3/b/60355a8d0866664b10820263"
+const expectedResponse = {
+    "record": {
+        "event": expectedText
+    },
+    "metadata": {
+      "parentId": "<BIN_ID>",
+      "private": true
+    }
+  }
+const wrapper = shallowMount(CreateEvent)
+const button = wrapper.find("#create-event")
+enableFetchMocks()
+fetch.mockResponseOnce(JSON.stringify(expectedResponse))
+
+button.trigger('click')
+await wrapper.setData({event: expectedText})
+console.log(wrapper.vm.event)
+const numberOfCalls = fetch.mock.calls.lenght
+const actualUrl = fetch.mock.calls[0][0]
+
+expect(numberOfCalls).toBe(1)
+expect(actualUrl).toHaveBeenCalled(expectedUrl)
+*/
