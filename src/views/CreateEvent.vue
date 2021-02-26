@@ -84,7 +84,7 @@ export default {
     name: "Create-Event",
     data() {
         return {
-            eventsArray: [],
+            events: [],
             event: {
                 id: "",
                 organizer: "",
@@ -102,16 +102,19 @@ export default {
             }
     }
     },
+    props: {
+        eventsArray: Array
+    },
     methods: {
         async pushToEventsArray() {
-        
-        await this.getEventDataArray()
+        console.log("1", this.eventsArray)
+        this.events = [...this.eventsArray]
+        console.log("2")
+        this.event.id = this.eventsArray.length + 1
+        this.events.push(this.event)
+        console.log("3")
 
-        let event = this.event
-
-        await this.eventsArray.push(event)
-
-        let updatedArray = this.eventsArray
+/*      
         let req = new XMLHttpRequest();
 
         req.onreadystatechange = () => {
@@ -123,24 +126,23 @@ export default {
         req.open("PUT", "https://api.jsonbin.io/v3/b/6038c7059342196a6a687d55/", true);
         req.setRequestHeader("Content-Type", "application/json");
         req.setRequestHeader("X-Master-Key", "$2b$10$IQutUOnIDU5m1VTI.4PzQ.M1ZzdQ4Q/XZzMz/MT7RKqX8oHx3k0pu");
-        req.send(JSON.stringify({events: updatedArray}));
+        req.send(JSON.stringify({events: this.events}));
         }
-/*
-        let event = this.event
+*/
         
-        console.log(event)
         let settings = {
+            method: 'PUT',
+            body: JSON.stringify({events: this.events}),
             headers: {
-                method: 'PUT',
-                body: JSON.stringify(event),
                 'Content-Type': 'application/json',
                 'X-Master-Key': '$2b$10$IQutUOnIDU5m1VTI.4PzQ.M1ZzdQ4Q/XZzMz/MT7RKqX8oHx3k0pu',
                 'X-Bin-Versioning': 'false'
             }
         }
         try{
-        console.log(this.event)
-        let resp = await fetch(`https://api.jsonbin.io/v3/b/60355a8d0866664b10820263/`, settings)
+            console.log("4")
+        console.log("hej här är jag")
+        let resp = await fetch(`https://api.jsonbin.io/v3/b/6038c7059342196a6a687d55/`, settings)
         let data = await resp.json()
 
         console.log(data)
@@ -150,27 +152,7 @@ export default {
         }
         
     }
-    */,
-   async getEventDataArray() {
-      let settings = {
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Master-Key': '$2b$10$IQutUOnIDU5m1VTI.4PzQ.M1ZzdQ4Q/XZzMz/MT7RKqX8oHx3k0pu',
-            'X-Bin-Versioning': 'false'
-        }
-      }
-      try{
-      let resp = await fetch(`https://api.jsonbin.io/v3/b/6038c7059342196a6a687d55/latest`, settings)
-      let data = await resp.json()
-
-      this.eventsArray = data.record.events
-      this.event.id = this.eventsArray.length + 1
-      console.log(data)
-      }
-      catch(err){
-        console.error(err)
-      }
-    }
+    
     }
     
 }

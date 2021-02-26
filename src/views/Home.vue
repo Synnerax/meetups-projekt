@@ -51,5 +51,6 @@ export default {
 }
 .event-list {
   display: flex;
+  flex-wrap: wrap;
 }
 </style>

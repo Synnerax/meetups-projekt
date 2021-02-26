@@ -48,7 +48,7 @@ describe("CreateEvent.vue", () => {
 
     it("should do a api call when button is clicked", async () => {
         
-        const expectedUrl = "https://api.jsonbin.io/v3/b/6038c7059342196a6a687d55/latest"
+        const expectedUrl = "https://api.jsonbin.io/v3/b/60381b86ab68b51aec241829/"
 
         const expectedText = {
             "id": "123",
@@ -73,24 +73,28 @@ describe("CreateEvent.vue", () => {
             }
           }
         
-        const wrapper = shallowMount(CreateEvent) 
+        const wrapper = shallowMount(CreateEvent, {
+            propsData: {
+                eventsArray: []
+            }
+        }) 
         const button = wrapper.find("button")
 
-        console.log(button)
+        console.log(button.text())
         enableFetchMocks()
         fetch.mockResponseOnce(JSON.stringify(expectedResponse))
         //borde göra en till mockresponse som ger eventsArray data 
-        await wrapper.setData({eventsArray: [
+        await wrapper.setData({events: [
             {}
         ]})
         await wrapper.setData({event: expectedText})
-        console.log(wrapper.vm.event)
         await button.trigger("click")
+
         
         const numberOfCalls = fetch.mock.calls.length
+        expect(numberOfCalls).toBe(1)
         const actualUrl = fetch.mock.calls[0][0]
         expect(button.exists).toBeTruthy()
-        expect(numberOfCalls).toBe(1)
         expect(actualUrl).toBe(expectedUrl)
     })
 

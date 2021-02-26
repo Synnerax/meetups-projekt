@@ -15,7 +15,8 @@
 export default {
     name: "event-card",
     props: {
-        eventInfo: Object
+        eventInfo: Object,
+        eventArray: Array
     }
 }
 </script>
