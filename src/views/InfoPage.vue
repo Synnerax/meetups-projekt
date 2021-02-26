@@ -23,8 +23,8 @@
             </section>
 
             <section class="enter-event">
-                <button>
-                    Enter Events
+                <button @click="enterEvent">
+                    Enter Event
                 </button>
             </section>
         </section>
@@ -38,6 +38,13 @@ export default {
     name: "event-info-page",
     props: {
         eventsArray: Array,
+    },
+    methods: {
+        enterEvent() {
+            const event = this.chosenEvent
+            console.log(event)
+            this.$emit("entered", event)
+        }
     },
     computed: {
     eventInfo() {

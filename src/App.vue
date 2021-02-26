@@ -5,7 +5,7 @@
     <router-link to="/create-event">Create Event </router-link>
     </div>
   </div> 
-  <router-view :eventsArray="eventsArray"/>
+  <router-view :eventsArray="eventsArray" v-on:entered="addToHistory($event)"/>
 </template>
 
 <script>
@@ -13,7 +13,8 @@ export default {
   name: "App",
   data() {
     return {
-      eventsArray: []
+      eventsArray: [],
+      eventHistory: []
     }
   },
   methods: {
@@ -35,6 +36,10 @@ export default {
       catch(err){
         console.error(err)
       }
+    },
+    addToHistory(event) {
+      console.log("i entered this event", event)
+      this.eventHistory.push(event)
     }
   },
   mounted() {
