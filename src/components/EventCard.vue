@@ -3,7 +3,8 @@
       <img src="https://source.unsplash.com/random/224x124" class="card-img" alt="">
       <div class="date-time-container">
         <span class="card-date">{{eventInfo.date}}, </span>
-        <span class="card-time">{{eventInfo.time}}</span>
+        <span class="card-time">{{eventInfo.time.hour}}:</span>
+        <span class="card-time">{{eventInfo.time.minute}} {{eventInfo.time.abbreviation}}</span>
       </div>
       <h3 class="card-title">{{eventInfo.title}}</h3>
       <p class="card-organizer">{{eventInfo.organizer}}</p>
@@ -14,7 +15,8 @@
 export default {
     name: "event-card",
     props: {
-        eventInfo: Object
+        eventInfo: Object,
+        eventArray: Array
     }
 }
 </script>

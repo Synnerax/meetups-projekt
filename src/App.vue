@@ -1,8 +1,11 @@
 <template>
-  <!--<div id="nav">
-    <router-link to="/">Home</router-link>
-  </div> -->
-  <router-view  :eventsArray="eventsArray"/>
+  <div id="nav">
+    <div class="align-right">
+    <router-link to="/" @click="getEventDataArray">Home</router-link>
+    <router-link to="/create-event">Create Event </router-link>
+    </div>
+  </div> 
+  <router-view :eventsArray="eventsArray"/>
 </template>
 
 <script>
@@ -23,10 +26,10 @@ export default {
         }
       }
       try{
-      let resp = await fetch(`https://api.jsonbin.io/v3/b/60355a8d0866664b10820263/latest`, settings)
+      let resp = await fetch(`https://api.jsonbin.io/v3/b/6038c7059342196a6a687d55/`, settings)
       let data = await resp.json()
 
-      this.eventsArray = await data.record.Events
+      this.eventsArray = await data.record.events
       console.log(data)
       }
       catch(err){
@@ -35,10 +38,7 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      console.log("i was created")
-      this.getEventDataArray()
-    })
+    this.getEventDataArray()
   }
 }
 </script>
@@ -52,15 +52,23 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  padding: 30px 0 30px 0;
+  
 }
 
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  margin-right: 1rem;
 }
 
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.align-right {
+  text-align: right;
+}
+
+
 </style>
