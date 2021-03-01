@@ -98,7 +98,10 @@ export default {
                     abbreviation: ""
                 },
                 tag: "",
-                eventOver: false
+                eventOver: false,
+                reviews: [
+                    
+                ]
             }
     }
     },

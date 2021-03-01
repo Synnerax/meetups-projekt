@@ -26,7 +26,12 @@ export default {
 .event-card {
   background: rgb(226, 209, 201);
   text-align: left;
+  max-width: 28%;
 
+}
+
+.event-card > img {
+  margin: 0 auto 0 auto;
 }
 
 .date-time-container, .card-title, .card-organizer {

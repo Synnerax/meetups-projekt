@@ -12,20 +12,31 @@
       </section>
 
       <section class="buttom-info-section">
-          <section class="buttom-info-flex">
-              <p class="description-info">
+          <section class="buttom-info-flex" >
+              <p class="description-info" v-show="!eventOver">
               {{eventInfo.description}}
               </p>
+              <section v-show="eventOver">
+                  <Review v-for="(review, index) in chosenEvent.reviews" :key="index">
+                  </Review>
+              </section>
           </section>
+          
           <section class="right-section">
             <section class="time-info">
                 <p>Starts: {{eventInfo.time.hour}}:{{eventInfo.time.minute}}</p>
             </section>
 
             <section class="enter-event">
-                <button @click="enterEvent">
+                <button v-if="!alreadyEntered" @click="enterEvent">
                     Enter Event
                 </button>
+                <div v-else >
+                    <p>Already Entered!</p>
+                    <button @click="endEvent">
+                        Click here to time travel until after the event
+                    </button>
+                </div>
             </section>
         </section>
       </section>
@@ -34,16 +45,36 @@
 </template>
 
 <script>
+
+import Review from '@/components/Review.vue'
 export default {
     name: "event-info-page",
+    components: {
+        Review
+    },
+    data() {
+        return {
+            entered: false
+        }
+    },
     props: {
         eventsArray: Array,
+        eventHistory: Array
     },
     methods: {
         enterEvent() {
             const event = this.chosenEvent
             console.log(event)
             this.$emit("entered", event)
+            this.entered = true
+        },
+        endEvent() {
+            const eventArray = [...this.eventsArray]
+            console.log(" new event array",eventArray)
+            let event = eventArray.find(b => b.id == this.$route.params.id)
+            event.eventOver = true
+            console.log("this is the new event:", event)
+            console.log("event Array after click and update:", eventArray)
         }
     },
     computed: {
@@ -61,11 +92,22 @@ export default {
       }
       return event;
     },
+    eventOver() {
+        return this.chosenEvent.eventOver
+    },
     chosenEvent(){ 
         if ( this.$route !== undefined ) {
-          return this.eventsArray.find(b => b.id == this.$route.params.id)
+          return this.eventsArray.find(event => event.id == this.$route.params.id)
         } else {
           return null
+        }
+      },
+    alreadyEntered(){ 
+        if ( this.eventHistory.length > 0 && this.eventHistory.find(event => event.id == this.chosenEvent.id)) {
+           return true
+           
+        } else {
+          return false
         }
       }
     }
@@ -83,7 +125,7 @@ export default {
 }
 
 .top-info-section {
-    height: 250px;
+    
     width: 100%;
     background: #fff;
 }
@@ -158,7 +200,7 @@ export default {
 .enter-event {
     margin-top: 3.5rem;
     width: 100%;
-    height: 6.5rem;
+    min-height: 6.5rem;
 }
 
 .enter-event > button {
@@ -177,6 +219,10 @@ export default {
   background: #008294;
   color: #ffffff;
 
+}
+
+.enter-event > div{
+    margin: 1rem
 }
 
 
